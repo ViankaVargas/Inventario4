@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventario de Accesorios</title>
+    <title>Inventario</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Inventario de Accesorios</h1>
+        <h1>Inventario</h1>
         <nav>
             <ul>
                 <li><button id="addEditPage">Agregar/Editar</button></li>
@@ -21,7 +21,7 @@
         <section id="addEditSection" class="page">
             <h2>Agregar/Actualizar Accesorio</h2>
             <form id="inventoryForm">
-                <label for="productType">Tipo de Producto:</label>
+                <label for="productType">Marca:</label>
                 <select id="productType">
                     <option value="iPhone">iPhone</option>
                     <option value="Samsung">Samsung</option>
@@ -29,15 +29,15 @@
                 </select>
                 
                 <label for="model">Modelo:</label>
-                <input type="text" id="model" placeholder="Ej: Galaxy S23">
+                <input type="text" id="model" placeholder="Ej: A15">
                 
-                <label for="accessoryType">Tipo de Accesorio:</label>
+                <label for="accessoryType">Tipo:</label>
                 <select id="accessoryType">
                     <option value="Estuche">Estuche</option>
                     <option value="Protector de Pantalla">Protector de Pantalla</option>
                 </select>
 
-                <label for="design">Diseño:</label>
+                <label for="design">Descripción:</label>
                 <select id="design">
                     <option value="Liso">Liso</option>
                     <option value="Diseño">Diseño</option>
@@ -53,15 +53,15 @@
         <!-- Página de filtrado/búsqueda -->
         <section id="searchSection" class="page hidden">
             <h2>Buscar/Filtrar Inventario</h2>
-            <input type="text" id="searchBar" placeholder="Buscar por modelo...">
+            <input type="text" id="searchBar" placeholder="Buscar por modelo">
             <div class="table-container">
                 <table id="inventoryTable">
                     <thead>
                         <tr>
-                            <th>Tipo</th>
+                            <th>Marca</th>
                             <th>Modelo</th>
                             <th>Accesorio</th>
-                            <th>Diseño</th>
+                            <th>Descripción</th>
                             <th>Cantidad</th>
                             <th>Acciones</th>
                         </tr>
