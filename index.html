@@ -21,6 +21,12 @@
         <section id="addEditSection" class="page">
             <h2>Agregar/Actualizar Accesorio</h2>
             <form id="inventoryForm">
+                <label for="local">Local:</label>
+                <select id="local">
+                    <option value="Ak1">Ak1</option>
+                    <option value="Ak2">Ak2</option>
+                </select>
+                
                 <label for="productType">Marca:</label>
                 <select id="productType">
                     <option value="iPhone">iPhone</option>
@@ -58,6 +64,7 @@
                 <table id="inventoryTable">
                     <thead>
                         <tr>
+                            <th>Local</th>
                             <th>Marca</th>
                             <th>Modelo</th>
                             <th>Accesorio</th>
