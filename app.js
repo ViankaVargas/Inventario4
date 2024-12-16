@@ -1,26 +1,26 @@
 const inventoryTable = document.querySelector("#inventoryTable tbody");
 const form = document.querySelector("#inventoryForm");
 const searchBar = document.querySelector("#searchBar");
-const saveToFileButton = document.querySelector("#saveToFile");
-const loadFileInput = document.querySelector("#loadFile");
-const addEditPageButton = document.querySelector("#addEditPage");
-const searchPageButton = document.querySelector("#searchPage");
-const addEditSection = document.querySelector("#addEditSection");
-const searchSection = document.querySelector("#searchSection");
+const addEditSection = document.querySelector(".add-edit-section");
+const searchSection = document.querySelector(".search-section");
+const addEditPageButton = document.querySelector("#addEditPageButton");
+const searchPageButton = document.querySelector("#searchPageButton");
+const saveToFileButton = document.querySelector("#saveToFileButton");
+const loadFileInput = document.querySelector("#loadFileInput");
 
 let inventory = [];
 let editIndex = null;
 
 // Cambiar entre páginas
-addEditPageButton.addEventListener("click", () => {
-    addEditSection.classList.remove("hidden");
-    searchSection.classList.add("hidden");
-});
-
-searchPageButton.addEventListener("click", () => {
-    addEditSection.classList.add("hidden");
-    searchSection.classList.remove("hidden");
-});
+function switchPage(targetPage) {
+    if (targetPage === "addEdit") {
+        addEditSection.classList.remove("hidden");
+        searchSection.classList.add("hidden");
+    } else if (targetPage === "search") {
+        addEditSection.classList.add("hidden");
+        searchSection.classList.remove("hidden");
+    }
+}
 
 // Agregar o actualizar accesorio
 document.querySelector("#addButton").addEventListener("click", () => {
@@ -46,6 +46,9 @@ document.querySelector("#addButton").addEventListener("click", () => {
 
     form.reset();
     renderTable();
+
+    // Redirigir a la página de búsqueda
+    switchPage("search");
 });
 
 // Renderizar la tabla
@@ -60,8 +63,8 @@ function renderTable() {
             <td>${item.design}</td>
             <td>${item.quantity}</td>
             <td>
-                <button class="edit" onclick="editAccessory(${index})">Editar</button>
-                <button class="delete" onclick="deleteAccessory(${index})">Eliminar</button>
+                <button class="action-btn edit" onclick="editAccessory(${index})">Editar</button>
+                <button class="action-btn delete" onclick="deleteAccessory(${index})">Eliminar</button>
             </td>
         `;
         inventoryTable.appendChild(row);
@@ -77,6 +80,9 @@ window.editAccessory = (index) => {
     document.querySelector("#design").value = item.design;
     document.querySelector("#quantity").value = item.quantity;
     editIndex = index;
+
+    // Cambiar a la página de agregar/editar
+    switchPage("addEdit");
 };
 
 // Eliminar accesorio
@@ -85,34 +91,33 @@ window.deleteAccessory = (index) => {
     renderTable();
 };
 
-// Búsqueda dinámica
-searchBar.addEventListener("input", (e) => {
-    const query = e.target.value.toLowerCase();
-    const filteredInventory = inventory.filter(item =>
-        item.model.toLowerCase().includes(query)
-    );
+// Filtrar accesorios
+searchBar.addEventListener("input", () => {
+    const searchText = searchBar.value.toLowerCase();
     inventoryTable.innerHTML = "";
-    filteredInventory.forEach((item, index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${item.productType}</td>
-            <td>${item.model}</td>
-            <td>${item.accessoryType}</td>
-            <td>${item.design}</td>
-            <td>${item.quantity}</td>
-            <td>
-                <button class="edit" onclick="editAccessory(${index})">Editar</button>
-                <button class="delete" onclick="deleteAccessory(${index})">Eliminar</button>
-            </td>
-        `;
-        inventoryTable.appendChild(row);
-    });
+    inventory
+        .filter(item => item.model.toLowerCase().includes(searchText))
+        .forEach((item, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${item.productType}</td>
+                <td>${item.model}</td>
+                <td>${item.accessoryType}</td>
+                <td>${item.design}</td>
+                <td>${item.quantity}</td>
+                <td>
+                    <button class="action-btn edit" onclick="editAccessory(${index})">Editar</button>
+                    <button class="action-btn delete" onclick="deleteAccessory(${index})">Eliminar</button>
+                </td>
+            `;
+            inventoryTable.appendChild(row);
+        });
 });
 
-// Guardar en archivo
+// Guardar inventario en archivo
 saveToFileButton.addEventListener("click", () => {
     const data = inventory.map(item => `${item.productType},${item.model},${item.accessoryType},${item.design},${item.quantity}`).join("\n");
-    const blob = new Blob([data], { type: "text/plain" });
+    const blob = new Blob([data], { type: "text/plain;charset=utf-8" }); // UTF-8
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -120,7 +125,7 @@ saveToFileButton.addEventListener("click", () => {
     a.click();
 });
 
-// Cargar archivo
+// Leer archivo de inventario
 loadFileInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -134,5 +139,12 @@ loadFileInput.addEventListener("change", (e) => {
         });
         renderTable();
     };
-    reader.readAsText(file);
+    reader.readAsText(file, "utf-8"); // UTF-8
 });
+
+// Cambiar entre páginas con botones del menú
+addEditPageButton.addEventListener("click", () => switchPage("addEdit"));
+searchPageButton.addEventListener("click", () => switchPage("search"));
+
+// Inicializar en la página de búsqueda
+switchPage("search");
