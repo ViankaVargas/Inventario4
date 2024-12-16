@@ -10,23 +10,40 @@ body {
 header {
     background-color: #6200ea;
     color: white;
-    text-align: center;
     padding: 1rem;
+    text-align: center;
 }
 
-nav {
-    margin: 1rem 0;
+h1 {
+    margin: 0;
 }
 
-nav a {
-    color: white;
-    text-decoration: none;
-    font-size: 1rem;
+nav ul {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    list-style: none;
+    margin-top: 1rem;
+}
+
+nav ul li {
     margin: 0 1rem;
 }
 
-nav a:hover {
-    text-decoration: underline;
+nav ul li button {
+    background-color: white;
+    color: #6200ea;
+    padding: 0.5rem 1rem;
+    border: 2px solid #6200ea;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+nav ul li button:hover {
+    background-color: #3700b3;
+    color: white;
+    border-color: #3700b3;
 }
 
 main {
@@ -38,8 +55,8 @@ main {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-section {
-    margin-bottom: 2rem;
+.page.hidden {
+    display: none;
 }
 
 label {
@@ -52,6 +69,7 @@ input, select, button {
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-bottom: 1rem;
+    width: 100%;
 }
 
 button {
@@ -65,10 +83,16 @@ button:hover {
     background-color: #3700b3;
 }
 
-/* Tabla */
+/* Tabla responsiva */
+.table-container {
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 600px;
 }
 
 thead {
@@ -84,30 +108,4 @@ th, td {
 
 tbody tr:nth-child(even) {
     background-color: #f9f9f9;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-    table, thead, tbody, th, td, tr {
-        display: block;
-    }
-
-    thead tr {
-        display: none;
-    }
-
-    tbody tr {
-        margin-bottom: 1rem;
-    }
-
-    td {
-        display: flex;
-        justify-content: space-between;
-        padding: 0.5rem 0;
-    }
-
-    td::before {
-        content: attr(data-label);
-        font-weight: bold;
-    }
 }
