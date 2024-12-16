@@ -3,24 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Accesorios</title>
+    <title>Inventario de Accesorios</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Gestión de Accesorios</h1>
+        <h1>Inventario de Accesorios</h1>
+        <nav>
+            <ul>
+                <li><button id="addEditPage">Agregar/Editar</button></li>
+                <li><button id="searchPage">Filtrar/Búsqueda</button></li>
+            </ul>
+        </nav>
     </header>
     <main>
-        <section class="menu">
-            <h2>Bienvenido</h2>
-            <p>Elige una de las opciones para comenzar:</p>
-            <nav>
-                <ul>
-                    <li><a href="agregar-editar.html">Agregar/Editar Accesorios</a></li>
-                    <li><a href="buscar-filtrar.html">Buscar/Filtrar Accesorios</a></li>
-                </ul>
-            </nav>
+        <!-- Página de agregar/editar -->
+        <section id="addEditSection" class="page">
+            <h2>Agregar/Actualizar Accesorio</h2>
+            <form id="inventoryForm">
+                <label for="productType">Tipo de Producto:</label>
+                <select id="productType">
+                    <option value="iPhone">iPhone</option>
+                    <option value="Samsung">Samsung</option>
+                    <option value="Redmi">Redmi</option>
+                </select>
+                
+                <label for="model">Modelo:</label>
+                <input type="text" id="model" placeholder="Ej: Galaxy S23">
+                
+                <label for="accessoryType">Tipo de Accesorio:</label>
+                <select id="accessoryType">
+                    <option value="Estuche">Estuche</option>
+                    <option value="Protector de Pantalla">Protector de Pantalla</option>
+                </select>
+
+                <label for="design">Diseño:</label>
+                <select id="design">
+                    <option value="Liso">Liso</option>
+                    <option value="Diseño">Diseño</option>
+                </select>
+
+                <label for="quantity">Cantidad:</label>
+                <input type="number" id="quantity" min="1" placeholder="Ej: 10">
+
+                <button type="button" id="addButton">Agregar/Actualizar</button>
+            </form>
+        </section>
+
+        <!-- Página de filtrado/búsqueda -->
+        <section id="searchSection" class="page hidden">
+            <h2>Buscar/Filtrar Inventario</h2>
+            <input type="text" id="searchBar" placeholder="Buscar por modelo...">
+            <div class="table-container">
+                <table id="inventoryTable">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Modelo</th>
+                            <th>Accesorio</th>
+                            <th>Diseño</th>
+                            <th>Cantidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Las filas serán generadas dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+            <button id="saveToFile">Guardar en Archivo</button>
+            <input type="file" id="loadFile" accept=".txt">
         </section>
     </main>
+    <script src="app.js"></script>
 </body>
 </html>
