@@ -24,6 +24,7 @@ searchPageButton.addEventListener("click", () => {
 
 // Agregar o actualizar accesorio
 document.querySelector("#addButton").addEventListener("click", () => {
+    const local = document.querySelector("#local").value;
     const productType = document.querySelector("#productType").value;
     const model = document.querySelector("#model").value.trim();
     const accessoryType = document.querySelector("#accessoryType").value;
@@ -35,7 +36,7 @@ document.querySelector("#addButton").addEventListener("click", () => {
         return;
     }
 
-    const accessory = { productType, model, accessoryType, design, quantity };
+    const accessory = { local, productType, model, accessoryType, design, quantity };
 
     if (editIndex !== null) {
         inventory[editIndex] = accessory;
@@ -54,6 +55,7 @@ function renderTable() {
     inventory.forEach((item, index) => {
         const row = document.createElement("tr");
         row.innerHTML = `
+            <td>${item.local}</td>
             <td>${item.productType}</td>
             <td>${item.model}</td>
             <td>${item.accessoryType}</td>
@@ -71,6 +73,7 @@ function renderTable() {
 // Editar accesorio
 window.editAccessory = (index) => {
     const item = inventory[index];
+    document.querySelector("#local").value = item.local;
     document.querySelector("#productType").value = item.productType;
     document.querySelector("#model").value = item.model;
     document.querySelector("#accessoryType").value = item.accessoryType;
@@ -95,6 +98,7 @@ searchBar.addEventListener("input", (e) => {
     filteredInventory.forEach((item, index) => {
         const row = document.createElement("tr");
         row.innerHTML = `
+            <td>${item.local}</td>
             <td>${item.productType}</td>
             <td>${item.model}</td>
             <td>${item.accessoryType}</td>
@@ -111,7 +115,7 @@ searchBar.addEventListener("input", (e) => {
 
 // Guardar en archivo
 saveToFileButton.addEventListener("click", () => {
-    const data = inventory.map(item => `${item.productType},${item.model},${item.accessoryType},${item.design},${item.quantity}`).join("\n");
+    const data = inventory.map(item => `${item.local}, ${item.productType},${item.model},${item.accessoryType},${item.design},${item.quantity}`).join("\n");
     const blob = new Blob([data], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -129,8 +133,8 @@ loadFileInput.addEventListener("change", (e) => {
     reader.onload = (event) => {
         const lines = event.target.result.split("\n");
         inventory = lines.map(line => {
-            const [productType, model, accessoryType, design, quantity] = line.split(",");
-            return { productType, model, accessoryType, design, quantity: parseInt(quantity) };
+            const [local, productType, model, accessoryType, design, quantity] = line.split(",");
+            return { local, productType, model, accessoryType, design, quantity: parseInt(quantity) };
         });
         renderTable();
     };
